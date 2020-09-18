@@ -10,34 +10,42 @@ use anyhow::{ensure, Error};
 
 const BIT_FIVE: u8 = 32;
 
+/// 4-byte chunk type code for PNG files
+/// See spec for details: http://www.libpng.org/pub/png/spec/1.2/PNG-Structure.html
 #[derive(Debug, PartialEq, Eq)]
 pub struct ChunkType {
     name: [u8; 4],
 }
 
 impl ChunkType {
+    /// The bytes contained in the struct
     pub fn bytes(&self) -> [u8; 4] {
         self.name
     }
 
+    /// Checks to see if chunk type code is valid
     pub fn is_valid(&self) -> bool {
         // We could also check for ASCII alphabetic here
         // but since that's done on construction there is no need
         self.is_reserved_bit_valid()
     }
 
+    /// Checks first byte to see if chunk type is critical
     pub fn is_critical(&self) -> bool {
         self.name[0] & BIT_FIVE != BIT_FIVE
     }
 
+    /// Checks second byte to see if chunk type is public
     pub fn is_public(&self) -> bool {
         self.name[1] & BIT_FIVE != BIT_FIVE
     }
 
+    /// Checks third byte to see if reserved bit is valid
     pub fn is_reserved_bit_valid(&self) -> bool {
         self.name[2] & BIT_FIVE != BIT_FIVE
     }
 
+    /// Checks fourth byte to see if chunk type is safe to copy
     pub fn is_safe_to_copy(&self) -> bool {
         self.name[3] & BIT_FIVE == BIT_FIVE
     }
