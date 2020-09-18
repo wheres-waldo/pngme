@@ -12,7 +12,7 @@ const BIT_FIVE: u8 = 32;
 
 /// 4-byte chunk type code for PNG files
 /// See spec for details: http://www.libpng.org/pub/png/spec/1.2/PNG-Structure.html
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub struct ChunkType {
     name: [u8; 4],
 }
