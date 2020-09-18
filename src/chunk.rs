@@ -68,9 +68,10 @@ impl TryFrom<&[u8]> for Chunk {
     type Error = Error;
 
     fn try_from(bytes: &[u8]) -> Result<Self> {
-        ensure!(bytes.len() >= 12, "Not enough bytes to make a chunk");
+        let num_bytes = bytes.len();
+        ensure!(num_bytes >= 12, "Not enough bytes to make a chunk");
 
-        let checksum = u32::from_be_bytes(bytes[bytes.len() - 4..bytes.len()].try_into()?);
+        let checksum = u32::from_be_bytes(bytes[num_bytes - 4..num_bytes].try_into()?);
 
         let mut buffer = BufReader::new(bytes);
 
