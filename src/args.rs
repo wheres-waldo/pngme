@@ -14,3 +14,62 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with pngme.  If not, see <http://www.gnu.org/licenses/>.
+use std::path::PathBuf;
+use structopt::StructOpt;
+
+#[derive(StructOpt)]
+pub struct Pngme {
+    #[structopt(subcommand)]
+    cmd: Command,
+}
+
+#[derive(StructOpt)]
+pub enum Command {
+    Encode(Encode),
+    Decode(Decode),
+    Remove(Remove),
+    Print(Print),
+}
+
+#[derive(StructOpt)]
+/// Encodes a message into a PNG file
+pub struct Encode {
+    /// A PNG file
+    #[structopt(parse(from_os_str))]
+    file: PathBuf,
+    /// A 4 character chunk type code
+    chunk_type: String,
+    /// The message you wish to hide in the PNG file
+    message: String,
+    /// A output file
+    #[structopt(parse(from_os_str))]
+    output: Option<PathBuf>,
+}
+
+#[derive(StructOpt)]
+/// Decodes a PNG that may have a hidden message
+pub struct Decode {
+    /// A PNG file
+    #[structopt(parse(from_os_str))]
+    file: PathBuf,
+    /// A 4 character chunk type code
+    chunk_type: String,
+}
+
+#[derive(StructOpt)]
+/// Removes a chunk from a PNG file
+pub struct Remove {
+    /// A PNG file
+    #[structopt(parse(from_os_str))]
+    file: PathBuf,
+    /// The chunk type you wish to remove
+    chunk_type: String,
+}
+
+#[derive(StructOpt)]
+/// Prints all of the chunks in a PNG file
+pub struct Print {
+    /// A PNG file
+    #[structopt(parse(from_os_str))]
+    file: PathBuf,
+}
