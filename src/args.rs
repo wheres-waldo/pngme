@@ -32,7 +32,7 @@ pub enum Command {
 }
 
 #[derive(StructOpt)]
-/// Encodes a message into a PNG file
+/// Encodes a chunk into a PNG file
 pub struct Encode {
     /// A PNG file
     #[structopt(parse(from_os_str))]
@@ -47,7 +47,7 @@ pub struct Encode {
 }
 
 #[derive(StructOpt)]
-/// Decodes a PNG that may have a hidden message
+/// Decodes a PNG chunk and tries to print it
 pub struct Decode {
     /// A PNG file
     #[structopt(parse(from_os_str))]
