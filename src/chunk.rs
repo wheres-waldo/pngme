@@ -102,8 +102,7 @@ impl TryFrom<&[u8]> for Chunk {
         let mut data_buf = buffer.take(length as u64);
         data_buf.read_to_end(&mut data)?;
 
-        let mut crc_bytes = chunk_type.to_vec();
-        crc_bytes.extend(data.clone());
+        let crc_bytes = [&data[..], &chunk_type].concat();
         let crc = crc::crc32::checksum_ieee(&crc_bytes[..]);
 
         ensure!(crc == checksum, "Invalid CRC found");
