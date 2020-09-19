@@ -37,7 +37,7 @@ pub fn encode(opts: Encode) -> Result<()> {
 }
 
 /// Decode a `Chunk` from a `Png` file
-pub fn decode(opts: Decode) -> Result<String> {
+pub fn decode(opts: Decode) -> Result<()> {
     let buffer = fs::read(&opts.file)?;
 
     let png = Png::try_from(&buffer[..])?;
@@ -50,7 +50,8 @@ pub fn decode(opts: Decode) -> Result<String> {
             ))
         })?;
 
-    Ok(String::from_utf8(chunk.data().to_vec())?)
+    println!("{}", String::from_utf8(chunk.data().to_vec())?);
+    Ok(())
 }
 
 /// Removes the first `Chunk` with `chunk_type` from a `Png` file
@@ -65,14 +66,10 @@ pub fn remove(opts: Remove) -> Result<()> {
 }
 
 /// Returns a `String` that represents all of the `Chunks` in a `Png` file
-pub fn print(opts: Print) -> Result<String> {
+pub fn print(opts: Print) -> Result<()> {
     let buffer = fs::read(&opts.file)?;
 
     let png = Png::try_from(&buffer[..])?;
-    Ok(png
-        .chunks()
-        .iter()
-        .map(|chunk| chunk.to_string())
-        .collect::<Vec<String>>()
-        .join("\n\n"))
+    println!("{}", png);
+    Ok(())
 }
