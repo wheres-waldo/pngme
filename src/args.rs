@@ -20,7 +20,7 @@ use structopt::StructOpt;
 #[derive(StructOpt)]
 pub struct Pngme {
     #[structopt(subcommand)]
-    cmd: Command,
+    pub cmd: Command,
 }
 
 #[derive(StructOpt)]
@@ -36,14 +36,14 @@ pub enum Command {
 pub struct Encode {
     /// A PNG file
     #[structopt(parse(from_os_str))]
-    file: PathBuf,
+    pub file: PathBuf,
     /// A 4 character chunk type code
-    chunk_type: String,
+    pub chunk_type: String,
     /// The message you wish to hide in the PNG file
-    message: String,
+    pub message: String,
     /// A output file
     #[structopt(parse(from_os_str))]
-    output: Option<PathBuf>,
+    pub output: Option<PathBuf>,
 }
 
 #[derive(StructOpt)]
@@ -51,9 +51,9 @@ pub struct Encode {
 pub struct Decode {
     /// A PNG file
     #[structopt(parse(from_os_str))]
-    file: PathBuf,
+    pub file: PathBuf,
     /// A 4 character chunk type code
-    chunk_type: String,
+    pub chunk_type: String,
 }
 
 #[derive(StructOpt)]
@@ -61,9 +61,9 @@ pub struct Decode {
 pub struct Remove {
     /// A PNG file
     #[structopt(parse(from_os_str))]
-    file: PathBuf,
+    pub file: PathBuf,
     /// The chunk type you wish to remove
-    chunk_type: String,
+    pub chunk_type: String,
 }
 
 #[derive(StructOpt)]
@@ -71,5 +71,5 @@ pub struct Remove {
 pub struct Print {
     /// A PNG file
     #[structopt(parse(from_os_str))]
-    file: PathBuf,
+    pub file: PathBuf,
 }
