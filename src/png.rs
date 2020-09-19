@@ -125,8 +125,9 @@ impl TryFrom<&[u8]> for Png {
 
         while i < value.len() {
             let chunk_length = u32::from_be_bytes(value[i..i + 4].try_into()?) as usize;
-            chunks.push(Chunk::try_from(&value[i..i + chunk_length + 12])?);
-            i += chunk_length + 12;
+            let chunk_end = i + chunk_length + 12;
+            chunks.push(Chunk::try_from(&value[i..chunk_end])?);
+            i = chunk_end;
         }
 
         Ok(Png::from_chunks(chunks))
