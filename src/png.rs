@@ -159,13 +159,13 @@ mod tests {
         let crc = crc::crc32::checksum_ieee(&[chunk_type.as_bytes(), data.as_bytes()].concat()[..]);
 
         let chunk_data: Vec<u8> = data_length
-        .to_be_bytes()
-        .iter()
-        .chain(chunk_type.as_bytes().iter())
-        .chain(data.as_bytes().iter())
-        .chain(crc.to_be_bytes().iter())
-        .cloned()
-        .collect();
+            .to_be_bytes()
+            .iter()
+            .chain(chunk_type.as_bytes().iter())
+            .chain(data.as_bytes().iter())
+            .chain(crc.to_be_bytes().iter())
+            .cloned()
+            .collect();
 
         Chunk::try_from(chunk_data.as_ref())
     }
