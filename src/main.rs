@@ -21,8 +21,17 @@ mod chunk_type;
 mod commands;
 mod png;
 
+use crate::args::{Command::*, Pngme};
 use anyhow::Result;
+use structopt::StructOpt;
 
 fn main() -> Result<()> {
-    todo!()
+    let app = Pngme::from_args();
+
+    match app.cmd {
+        Encode(opts) => commands::encode(opts),
+        Decode(opts) => commands::decode(opts),
+        Remove(opts) => commands::remove(opts),
+        Print(opts) => commands::print(opts),
+    }
 }
