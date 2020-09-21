@@ -44,18 +44,13 @@ impl Png {
 
     /// Finds and removes the first `Chunk` with type `chunk_type`, returning the `Chunk` if found
     pub fn remove_chunk(&mut self, chunk_type: &str) -> Result<Chunk> {
-        if let Some(index) = self
+        let index = self
             .chunks
             .iter()
             .position(|chunk| chunk.chunk_type().bytes() == chunk_type.as_bytes())
-        {
-            Ok(self.chunks.remove(index))
-        } else {
-            Err(Error::msg(format!(
-                "chunk type {} was not found in PNG",
-                chunk_type
-            )))
-        }
+            .ok_or_else(|| Error::msg(format!("chunk type {} was not found in PNG", chunk_type)))?;
+
+        Ok(self.chunks.remove(index))
     }
 
     /// Returns the standard PNG header
